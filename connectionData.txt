@@ -1,0 +1,5 @@
+$server = "ix.cs.uoregon.edu";
+$dbname ="apple_music_db";
+$user = "guest";
+$pass = "guest";
+$port="3114";

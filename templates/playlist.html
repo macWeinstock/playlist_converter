@@ -1,0 +1,152 @@
+<html>
+	<!-- In order to use jquery -->
+	<script
+    	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+	</script>
+
+
+	<head>
+		<title>Playlist Converter Project</title>
+
+		<style type="text/css">
+			.column
+			{
+			    float: left;
+			    width: 33%;
+			}
+		</style>
+
+	</head>
+	  
+	<body bgcolor="white">
+
+		<header>
+			<h1>Playlist Converter Program</h1>
+			<h2>Author: Mac Weinstock</h2>
+		</header>
+			
+		<hr>
+
+		<i>Ideally, here is where I would ask a user for their login to apple music, encrypt and store in my database, and then ask the user for the playlist they want to convert. Then I would call a python script to get their playlist, and store all of the relevant information in my database. Because getting the apple music and spotify API's cost money, I'm skipping this part. Instead, I'm asking the user to enter in a fake playlist with song and artist names, store it in my database, and then display what I would send to the spotify api in order to make a playlist with the info stored in my database.</i>
+
+		<hr>
+
+		<div class="row">
+  			<div class="col-md-12"> 
+ 				<table class="playlist_table">
+      				<tr>
+						<th>Song ID</th>
+						<th>Song Name</th>
+						<th>Song Length</th>
+						<th>Artist ID</th>
+						<th>Artist Name</th>
+					</tr>
+   					{% for row in range(5) %}
+				    	<td><input name="songid" type="number"/></td>
+				      	<td><input name="songname" type="text"/></td>
+				      	<td><input name="length" type="number"/></td>
+				      	<td><input name="artistid" type="number"/></td>
+				      	<td><input name="artistname" type="text"/></td>		
+				    </tr>
+				    {% endfor %}
+  				</table>
+  			</div> <!-- col -->
+  		</div> <!-- row -->
+
+
+		<script type="text/javascript">
+			
+			$(document).ready(function(){
+				$("#submit").click(function(){
+					songid = []
+					songname = []
+					length = []
+					artistid = []
+					artistname = []
+					// playlist_name = $("#playlist_name").val();
+					// song = $("#song").val();
+					// artist = $("#artist").val();
+					// time = $("#time").val();
+
+					$('input[name="songid"]').each(function(i){
+            			if($(this).val()){
+              				songid[i] = $(this).val();
+            			}
+         			 });
+           
+          			$('input[name="songname"]').each(function(i){
+            			if($(this).val()){
+              				songname[i] = $(this).val();
+            			}
+         		 	});
+
+         		 	$('input[name="length"]').each(function(i){
+            			if($(this).val()){
+              				length[i] = $(this).val();
+            			}
+         		 	});
+
+         		 	$('input[name="artistid"]').each(function(i){
+            			if($(this).val()){
+              				artistid[i] = $(this).val();
+            			}
+         		 	});
+
+         		 	$('input[name="artistname"]').each(function(i){
+            			if($(this).val()){
+              				artistname[i] = $(this).val();
+            			}
+         		 	});
+
+					$.ajax({
+		                url: '/_submit',
+		                data : {'songid' : JSON.stringify(songid),
+		                		'song' : JSON.stringify(songname),
+		                		'time' : JSON.stringify(length),
+		                		'artistid' : JSON.stringify(artistid),
+		                		'artist' : JSON.stringify(artistname)
+		                		},
+		                type: 'POST',
+		                success: function(response){
+		                  console.log(response);
+		                },
+		                error: function(error){
+		                  console.log(error);
+		                } 
+          			});
+				});
+
+				$("#display").click(function(){
+					$.ajax({
+						url: '/_display',
+						data: {},
+						type: 'GET',
+						success: function(response){
+							console.log(response)
+		                },
+		                error: function(error){
+		                  console.log(error);
+		                } 
+            		});
+				});
+			});
+
+		</script>
+		
+		<div id="submit">
+  			<input type="submit"></input>
+		</div>
+
+		<br>
+
+		<form action="/_display" method="GET">
+  			<button>Display</button>
+		</form>
+
+		<hr>
+
+		<a href="playlist.txt" >Contents</a>
+		of the program that created this page. 	 
+	 
+	</body>
+</html>

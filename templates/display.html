@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Display apple_music_db database</title>
+    </head>
+
+    <body bgcolor="white">
+
+        <hr>
+
+        <header>
+            <h1>Display Contents from Database
+        </header>
+
+        <i>This page queries the database for entries stored in the SONG and ARTISTS table and sent by the consumer program. Ideally this data would then be used with the spotify api to populate a new playlist in the users account identical to the original in apple music.</i>
+
+        <hr>
+       
+
+        <table border = 1>
+            {% for key, value in result.items() %}
+
+                <tr>
+                    <th> {{ key }} </th>
+                    <td> {{ value }} </td>
+                </tr>
+
+            {% endfor %}
+        </table>
+
+        <hr>
+
+        <a href="display.txt" >Contents</a>
+        of the PHP program that created this page. 	 
+
+    </body>
+</html>
